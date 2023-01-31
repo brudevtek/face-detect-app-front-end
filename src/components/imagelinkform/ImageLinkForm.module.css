@@ -1,0 +1,51 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100;0,200;0,400;0,500;1,100;1,400&display=swap');
+
+.page_lay_out {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.main_text {
+  font-family: 'Roboto Mono', monospace;
+}
+
+.main_text p {
+  font-size: 15px;
+}
+
+.input_submit_box {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 700px;
+  height: 60px;
+  background-color: #269;
+  background-image: linear-gradient(white 2px, transparent 2px),
+    linear-gradient(90deg, white 2px, transparent 2px),
+    linear-gradient(rgba(255, 255, 255, 0.3) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.3) 1px, transparent 1px);
+  background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+  background-position: -2px -2px, -2px -2px, -1px -1px, -1px -1px;
+}
+
+.input_submit_box .button_element button {
+  width: 100px;
+  height: 30px;
+  cursor: pointer;
+}
+
+.input_submit_box .input_element input {
+  width: 500px;
+  height: 30px;
+}
+
+/* .input_submit_bg {
+  background-color: red;
+  height: 300px;
+  width: 600px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} */
