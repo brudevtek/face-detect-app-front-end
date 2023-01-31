@@ -1,12 +1,28 @@
+.face_reco_box_page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
 .face_reco_box {
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
+  width: 300px;
 }
 
 .face_reco_box img {
   height: auto;
-  width: 300px;
-  margin-top: 30px;
-  margin-bottom: 30px;
+  width: 100%;
+}
+
+.bounding_box {
+  position: absolute;
+  box-shadow: 0 0 0 3px red inset;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  cursor: pointer;
 }
