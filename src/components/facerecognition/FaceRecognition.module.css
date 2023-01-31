@@ -1,0 +1,12 @@
+.face_reco_box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.face_reco_box img {
+  height: auto;
+  width: 300px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
