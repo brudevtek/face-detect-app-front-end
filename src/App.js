@@ -7,6 +7,8 @@ import ParticlesBg from 'particles-bg';
 import { Component } from 'react';
 import Clarifai from 'clarifai';
 import FaceRecognition from './components/facerecognition/FaceRecognition';
+import Signin from './components/signin/Signin';
+import Register from './components/register/Register';
 
 const app = new Clarifai.App({
   apiKey: '29c6d9a7a94444cca0059bca356af8c1',
@@ -22,6 +24,7 @@ class App extends Component {
       input: '',
       imageurl: '',
       box: {},
+      route: 'signin',
     };
   }
 
@@ -63,18 +66,34 @@ class App extends Component {
       .catch((err) => console.log(err));
   };
 
+  onRouteChange = (inputroute) => {
+    this.setState({ route: inputroute });
+  };
+
   render() {
     return (
       <>
         <ParticlesBg type="cobweb" bg={true} />
-        <Navigation />
-        <Logo />
-        <Rank />
-        <ImageLinkForm
-          onInputChange={this.onInputChange}
-          onBtnSubmit={this.onBtnSubmit}
-        />
-        <FaceRecognition img_url={this.state.imageurl} box={this.state.box}/>
+
+        {this.state.route === 'signin' ? (
+          <>
+            <Signin onRouteChange={this.onRouteChange} />
+          </>
+        ) : (
+          <div>
+            <Navigation onRouteChange={this.onRouteChange} />
+            <Logo />
+            <Rank />
+            <ImageLinkForm
+              onInputChange={this.onInputChange}
+              onBtnSubmit={this.onBtnSubmit}
+            />
+            <FaceRecognition
+              img_url={this.state.imageurl}
+              box={this.state.box}
+            />
+          </div>
+        )}
       </>
     );
   }
