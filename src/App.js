@@ -9,7 +9,7 @@ import Clarifai from 'clarifai';
 import FaceRecognition from './components/facerecognition/FaceRecognition';
 import Signin from './components/signin/Signin';
 import Register from './components/register/Register';
-
+import { isEditable } from '@testing-library/user-event/dist/utils';
 
 const app = new Clarifai.App({
   apiKey: '29c6d9a7a94444cca0059bca356af8c1',
@@ -26,16 +26,27 @@ class App extends Component {
       imageurl: '',
       box: {},
       route: 'signin',
+      user: {
+        id: '',
+        name: '',
+        email: '',
+        entries: 0,
+        joined: '',
+      },
     };
   }
-  // componentDidMount() {
-  //   fetch('http://localhost:3000/')
-  //     .then((response) => response.json())
-  //     .then(data => console.log(data));
 
-  // }
-
-
+  loadUser = (data) => {
+    this.setState({
+      user: {
+        id: data.id,
+        name: data.name,
+        email: data.email,
+        entries: data.entries,
+        joined: data.joined,
+      },
+    });
+  };
 
   calculateBox = (data) => {
     const clarifaiFace =
@@ -70,7 +81,26 @@ class App extends Component {
         },
         this.state.input
       )
-      .then((response) => this.displayFaceBox(this.calculateBox(response)))
+      .then((response) => {
+        if (response) {
+          fetch('http://localhost:3000/image', {
+            method: 'put',
+            headers: { 'content-Type': 'application/json' },
+            body: JSON.stringify({
+              id: this.state.user.id,
+            }),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              this.setState(Object.assign(this.state.user,{entries:data}))
+              
+            });
+        };
+        this.displayFaceBox(this.calculateBox(response));
+
+        
+      })
+      
       .catch((err) => console.log(err));
   };
 
@@ -88,7 +118,10 @@ class App extends Component {
             <div>
               <Navigation onRouteChange={this.onRouteChange} />
               <Logo />
-              <Rank />
+              <Rank
+                name={this.state.user.name}
+                entries={this.state.user.entries}
+              />
               <ImageLinkForm
                 onInputChange={this.onInputChange}
                 onBtnSubmit={this.onBtnSubmit}
@@ -100,9 +133,12 @@ class App extends Component {
             </div>
           </>
         ) : this.state.route === 'signin' ? (
-          <Signin onRouteChange={this.onRouteChange} />
+          <Signin onRouteChange={this.onRouteChange} loadUser={this.loadUser} />
         ) : (
-          <Register onRouteChange={this.onRouteChange} />
+          <Register
+            onRouteChange={this.onRouteChange}
+            loadUser={this.loadUser}
+          />
         )}
       </>
     );

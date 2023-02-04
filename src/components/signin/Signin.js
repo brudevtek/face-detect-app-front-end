@@ -34,8 +34,9 @@ class Signin extends Component {
     })
       .then((response) => response.json())
       .then((data) => {
-        if (data === 'success') {
+        if (data) {
           this.props.onRouteChange('home');
+          this.props.loadUser(data);
         } else {
           this.setState({ errorMessage: '*Wrong email or Password' });
           console.log('wrong user or password');

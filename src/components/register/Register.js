@@ -31,7 +31,6 @@ class Register extends Component {
   };
 
   onSubmitRegInfo = () => {
-    
     fetch('http://localhost:3000/register', {
       method: 'post',
       headers: { 'content-Type': 'application/json' },
@@ -42,8 +41,12 @@ class Register extends Component {
       }),
     })
       .then((response) => response.json())
-      .then((data) => console.log(data)).then(this.props.onRouteChange('signin'))
-    
+      .then((data) => {
+        if (data) {
+          this.props.loadUser(data);
+          this.props.onRouteChange('home');
+        }
+      });
   };
 
   render() {
@@ -54,9 +57,7 @@ class Register extends Component {
             <main className="pa4 black-80">
               <form className="measure center">
                 <fieldset id="register" className="ba b--transparent ph0 mh0">
-                  <legend className="f2 fw6 ph0 mh0 center">
-                    Register
-                  </legend>
+                  <legend className="f2 fw6 ph0 mh0 center">Register</legend>
                   <div className="mt3">
                     <label className="db fw6 lh-copy f6" htmlFor="name">
                       Name

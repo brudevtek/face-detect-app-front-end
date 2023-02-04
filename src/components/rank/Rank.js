@@ -1,13 +1,13 @@
 import styles from './Rank.module.css';
 
-const Rank = () => {
+const Rank = ({name, entries}) => {
   return (
     <div className={styles.rank_layout}>
       <div>
-        <p>Andrei, your current rank is ....</p>
+        <p>{name}, your current rank is ....</p>
       </div>
       <div className={styles.rank_number}>
-        <p>#5</p>
+        <p>#{entries}</p>
       </div>
     </div>
   );
