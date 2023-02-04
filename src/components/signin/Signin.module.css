@@ -1,3 +1,13 @@
 .signin_page {
   margin-top: 200px;
 }
+
+.register_text {
+  cursor: pointer;
+}
+
+.login_error_message h1 {
+  font-size: 15px;
+  color: red;
+
+}

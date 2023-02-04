@@ -10,6 +10,7 @@ import FaceRecognition from './components/facerecognition/FaceRecognition';
 import Signin from './components/signin/Signin';
 import Register from './components/register/Register';
 
+
 const app = new Clarifai.App({
   apiKey: '29c6d9a7a94444cca0059bca356af8c1',
 });
@@ -27,6 +28,14 @@ class App extends Component {
       route: 'signin',
     };
   }
+  // componentDidMount() {
+  //   fetch('http://localhost:3000/')
+  //     .then((response) => response.json())
+  //     .then(data => console.log(data));
+
+  // }
+
+
 
   calculateBox = (data) => {
     const clarifaiFace =
@@ -43,7 +52,6 @@ class App extends Component {
   };
 
   displayFaceBox = (boxdata) => {
-    console.log(boxdata);
     this.setState({ box: boxdata });
   };
 
@@ -75,24 +83,26 @@ class App extends Component {
       <>
         <ParticlesBg type="cobweb" bg={true} />
 
-        {this.state.route === 'signin' ? (
+        {this.state.route === 'home' ? (
           <>
-            <Signin onRouteChange={this.onRouteChange} />
+            <div>
+              <Navigation onRouteChange={this.onRouteChange} />
+              <Logo />
+              <Rank />
+              <ImageLinkForm
+                onInputChange={this.onInputChange}
+                onBtnSubmit={this.onBtnSubmit}
+              />
+              <FaceRecognition
+                img_url={this.state.imageurl}
+                box={this.state.box}
+              />
+            </div>
           </>
+        ) : this.state.route === 'signin' ? (
+          <Signin onRouteChange={this.onRouteChange} />
         ) : (
-          <div>
-            <Navigation onRouteChange={this.onRouteChange} />
-            <Logo />
-            <Rank />
-            <ImageLinkForm
-              onInputChange={this.onInputChange}
-              onBtnSubmit={this.onBtnSubmit}
-            />
-            <FaceRecognition
-              img_url={this.state.imageurl}
-              box={this.state.box}
-            />
-          </div>
+          <Register onRouteChange={this.onRouteChange} />
         )}
       </>
     );
