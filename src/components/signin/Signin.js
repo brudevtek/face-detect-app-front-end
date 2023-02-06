@@ -34,12 +34,13 @@ class Signin extends Component {
     })
       .then((response) => response.json())
       .then((data) => {
-        if (data) {
+        if (data.id) {
           this.props.onRouteChange('home');
           this.props.loadUser(data);
         } else {
-          this.setState({ errorMessage: '*Wrong email or Password' });
-          console.log('wrong user or password');
+          this.setState({
+            errorMessage: 'Wrong Credentials',
+          });
         }
       });
   };
