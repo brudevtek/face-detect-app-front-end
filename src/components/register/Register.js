@@ -42,8 +42,16 @@ class Register extends Component {
     })
       .then((response) => response.json())
       .then((response) => {
-        this.props.loadUser(response);
-        this.props.onRouteChange('home');
+        if (response.id) {
+          this.props.loadUser(response);
+          this.props.onRouteChange('home');
+        } else {
+          this.setState({
+            errorMessage: "*Please fill out all fields",
+          });
+        }
+
+       
       });
   };
 
@@ -56,6 +64,7 @@ class Register extends Component {
               <form className="measure center">
                 <fieldset id="register" className="ba b--transparent ph0 mh0">
                   <legend className="f2 fw6 ph0 mh0 center">Register</legend>
+                  <div className="mt3">{this.state.errorMessage}</div>
                   <div className="mt3">
                     <label className="db fw6 lh-copy f6" htmlFor="name">
                       Name
@@ -105,7 +114,7 @@ class Register extends Component {
                   />
                 </div>
                 <div className="lh-copy mt3">
-                  <p onClick={() => this.props.onRouteChange('signin')}>
+                  <p onClick={() => this.props.onRouteChange('signout')}>
                     Already have account?
                     <span className={styles.signin_span}>Sign in</span>
                   </p>

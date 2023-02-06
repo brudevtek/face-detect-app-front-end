@@ -9,14 +9,21 @@ import Clarifai from 'clarifai';
 import FaceRecognition from './components/facerecognition/FaceRecognition';
 import Signin from './components/signin/Signin';
 import Register from './components/register/Register';
-import { isEditable } from '@testing-library/user-event/dist/utils';
 
-const app = new Clarifai.App({
-  apiKey: '29c6d9a7a94444cca0059bca356af8c1',
-});
 
-const img_url =
-  'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fA%3D%3D&w=1000&q=80';
+const initialstate = {
+  input: '',
+  imageurl: '',
+  box: {},
+  route: 'signin',
+  user: {
+    id: '',
+    name: '',
+    email: '',
+    entries: 0,
+    joined: '',
+  },
+};
 
 class App extends Component {
   constructor() {
@@ -24,8 +31,9 @@ class App extends Component {
     this.state = {
       input: '',
       imageurl: '',
+      isSignedIn: false,
       box: {},
-      route: 'signin',
+      route: 'signout',
       user: {
         id: '',
         name: '',
@@ -73,14 +81,14 @@ class App extends Component {
   onBtnSubmit = () => {
     this.setState({ imageurl: this.state.input });
 
-    app.models
-      .predict(
-        {
-          id: 'a403429f2ddf4b49b307e318f00e528b',
-          version: '34ce21a40cc24b6b96ffee54aabff139',
-        },
-        this.state.input
-      )
+    fetch('http://localhost:3000/imageurl', {
+      method: 'post',
+      headers: { 'content-Type': 'application/json' },
+      body: JSON.stringify({
+        input: this.state.input
+      }),
+    })
+      .then(response => response.json())
       .then((response) => {
         if (response) {
           fetch('http://localhost:3000/image', {
@@ -88,23 +96,25 @@ class App extends Component {
             headers: { 'content-Type': 'application/json' },
             body: JSON.stringify({
               id: this.state.user.id,
-            }),
-          })
-            .then((response) => response.json())
+            })
+          }).then((response) => response.json())
             .then((data) => {
-              this.setState(Object.assign(this.state.user,{entries:data}))
-              
-            });
-        };
+              this.setState(Object.assign(this.state.user, { entries: data }));
+            })
+            .catch(console.log);
+        }
         this.displayFaceBox(this.calculateBox(response));
-
-        
       })
-      
+
       .catch((err) => console.log(err));
   };
 
   onRouteChange = (inputroute) => {
+    if (inputroute === 'signout') {
+      this.setState(initialstate);
+    } else if (inputroute === 'home') {
+      this.setState({ isSignedIn: true });
+    }
     this.setState({ route: inputroute });
   };
 
@@ -132,7 +142,7 @@ class App extends Component {
               />
             </div>
           </>
-        ) : this.state.route === 'signin' ? (
+        ) : this.state.route === 'signout' ? (
           <Signin onRouteChange={this.onRouteChange} loadUser={this.loadUser} />
         ) : (
           <Register

@@ -6,7 +6,7 @@ const Navigation = ({ onRouteChange }) => {
     <div className={styles.nav_bar}>
       <nav>
         <p
-          onClick={() => onRouteChange('signin')}
+          onClick={() => onRouteChange('signout')}
           className="f3 link dim black underline pa3 pointer"
         >
           Sign out

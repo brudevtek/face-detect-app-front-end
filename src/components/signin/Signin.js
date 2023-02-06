@@ -39,7 +39,7 @@ class Signin extends Component {
           this.props.loadUser(data);
         } else {
           this.setState({
-            errorMessage: 'Wrong Credentials',
+            errorMessage: '*Invalid Credentials',
           });
         }
       });
