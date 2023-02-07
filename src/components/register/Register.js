@@ -31,7 +31,7 @@ class Register extends Component {
   };
 
   onSubmitRegInfo = () => {
-    fetch('http://localhost:3000/register', {
+    fetch('https://face-detect-app-api2.onrender.com/register', {
       method: 'post',
       headers: { 'content-Type': 'application/json' },
       body: JSON.stringify({
@@ -47,11 +47,9 @@ class Register extends Component {
           this.props.onRouteChange('home');
         } else {
           this.setState({
-            errorMessage: "*Please fill out all fields",
+            errorMessage: '*Please fill out all fields',
           });
         }
-
-       
       });
   };
 

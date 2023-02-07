@@ -10,7 +10,6 @@ import FaceRecognition from './components/facerecognition/FaceRecognition';
 import Signin from './components/signin/Signin';
 import Register from './components/register/Register';
 
-
 const initialstate = {
   input: '',
   imageurl: '',
@@ -81,23 +80,24 @@ class App extends Component {
   onBtnSubmit = () => {
     this.setState({ imageurl: this.state.input });
 
-    fetch('http://localhost:3000/imageurl', {
+    fetch('https://face-detect-app-api2.onrender.com/imageurl', {
       method: 'post',
       headers: { 'content-Type': 'application/json' },
       body: JSON.stringify({
-        input: this.state.input
+        input: this.state.input,
       }),
     })
-      .then(response => response.json())
+      .then((response) => response.json())
       .then((response) => {
         if (response) {
-          fetch('http://localhost:3000/image', {
+          fetch('https://face-detect-app-api2.onrender.com/image', {
             method: 'put',
             headers: { 'content-Type': 'application/json' },
             body: JSON.stringify({
               id: this.state.user.id,
-            })
-          }).then((response) => response.json())
+            }),
+          })
+            .then((response) => response.json())
             .then((data) => {
               this.setState(Object.assign(this.state.user, { entries: data }));
             })
