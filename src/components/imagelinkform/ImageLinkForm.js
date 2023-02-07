@@ -6,7 +6,7 @@ const ImageLinkForm = ({ onInputChange, onBtnSubmit }) => {
       <div className={styles.page_lay_out}>
         <div className={styles.main_text}>
           <p className="f3">
-            {'This app will detect faces in uploaded pics. Give it a try'}
+            {'This App will detect face in the uploaded image. Give it a try'}
           </p>
         </div>
         <div className={styles.input_submit_box}>
