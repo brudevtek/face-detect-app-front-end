@@ -101,7 +101,6 @@ class Signin extends Component {
                   >
                     Register
                   </p>
-                  <p className={styles.register_text}>Designed by Brn N.</p>
                 </div>
               </div>
             </main>
